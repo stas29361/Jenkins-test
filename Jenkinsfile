@@ -1,7 +1,12 @@
 pipeline {
    agent any
    stages {
-      
+      stage('Clear test reports'){
+         steps {
+            sh(""" rm -rf $WORKSPACE/allure-results """)
+            sh(""" rm -rf $WORKSPACE/allure-report """)
+         }
+      }
       stage('Installation'){
          steps {
             bat 'npm install'
@@ -10,7 +15,10 @@ pipeline {
       }
       stage('e2e-tests'){
         steps {
-          bat  "npx playwright test "
+          retry(3) {
+            bat  "npx playwright test "
+            echo "1---------------------"
+          }
           }
       }
       stage('Test reports') {

@@ -18,7 +18,7 @@ pipeline {
                           echo "privet chrome"
                            bat 'npx playwright test --project="chromium"'
                         } catch (Exception e) {
-                            if (e.getMessage().contains("Timed out")) {
+                            if (e.getMessage().contains("net::ERR_ABORTED")) {
                                 bat 'npx playwright test --project="chromium"'
                                 echo "Error in chrome, restart the comand ************************************************"
                             } else {
@@ -39,7 +39,7 @@ pipeline {
                            bat 'npx playwright test --project="firefox"'
                            echo "privet firefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefox"
                         } catch (Exception e) {
-                            if (e.getMessage().contains("rererererererer")) {
+                            if (e.getMessage().contains("net::ERR_ABORTED")) {
                                 bat 'npx playwright test --project="firefox"'
                                 echo "Error in firefox, restart the comand ************************************************"
                             } else {

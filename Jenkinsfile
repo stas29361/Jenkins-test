@@ -15,8 +15,8 @@ pipeline {
                     retry(3) {
                       script {
                         try {
+                          echo "privet chrome"
                            bat 'npx playwright test --project="chromium"'
-                           echo "privet chrome"
                         } catch (Exception e) {
                             if (e.getMessage().contains("Timed out")) {
                                 bat 'npx playwright test --project="chromium"'

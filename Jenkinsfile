@@ -13,6 +13,7 @@ pipeline {
           steps {
             catchError(stageResult: 'FAILURE') {
                     retry(3) {
+                      script {
                         try {
                            bat 'npx playwright test --project="chromium"'
                            echo "privet chrome"
@@ -24,6 +25,7 @@ pipeline {
                                 error('Произошла ошибка в этапе "webkit"')
                             }
                         }
+                      }
                     }
                 }
             }
@@ -32,6 +34,7 @@ pipeline {
           steps {
             catchError(stageResult: 'FAILURE') {
                     retry(3) {
+                      script{
                         try {
                            bat 'npx playwright test --project="firefox"'
                            echo "privet firefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefox"
@@ -43,6 +46,7 @@ pipeline {
                                 error('Произошла ошибка в этапе "webkit"')
                             }
                         }
+                      }
                     }
                 }
             }

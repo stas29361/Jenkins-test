@@ -8,7 +8,7 @@ pipeline {
          }
       }
      stage('chromium') {
-    steps {
+      steps {
         script {
             try {
                 def command = "npx playwright test "
@@ -18,9 +18,8 @@ pipeline {
                 if (errorMessage.contains("Test timeout")) {
                   def retryCommand = "npx playwright test "
                   bat(returnStatus: true, script: retryCommand)
-                } else {
-                  currentBuild.result = 'FAILURE'
                 }
+                currentBuild.result = 'FAILURE'
             }
         }
     }

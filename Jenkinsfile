@@ -15,19 +15,23 @@ pipeline {
                  try {
                     def command = 'npx playwright test --project="chromium"'
                     bat(returnStatus: true, script: command)
+                    echo "privet rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
                  } catch (Exception e) {
                     def errorMessage = e.getMessage() 
+                    echo "poka tttttttttttttttttttttttttttttttttttttttttttttttttttt"
                     if (errorMessage.contains("rererererererer")) {
                       def retryCommand = 'npx playwright test --project="chromium"'
                       bat(returnStatus: true, script: retryCommand)
                       echo "chrome retry----------------------------------------"
-                    }
+                    } else {
                       currentBuild.result = 'FAILURE'
+                      }
+                      
                     }
                 }
             }
         }
-        stage('firefox'){
+        stage ('firefox') {
           steps {
               script {
                  try {
@@ -39,8 +43,9 @@ pipeline {
                       def retryCommand = 'npx playwright test --project="firefox"'
                       bat(returnStatus: true, script: retryCommand)
                       echo "firefox retry----------------------------------------"
-                    }
+                    } else {
                       currentBuild.result = 'FAILURE'
+                      }
                     }
                 }
             }

@@ -7,22 +7,44 @@ pipeline {
             bat 'npx playwright install'
          }
       }
-     stage('chromium') {
-      steps {
-        script {
-            try {
-                def command = "npx playwright test "
-                bat(returnStatus: true, script: command)
-            } catch (Exception e) {
-                def errorMessage = e.getMessage() 
-                if (errorMessage.contains("Test timeout")) {
-                  def retryCommand = "npx playwright test "
-                  bat(returnStatus: true, script: retryCommand)
+     stage('end-2-end') {
+      parallel{
+        stage('chrome'){
+          steps {
+              script {
+                 try {
+                    def command = 'npx playwright test --project="chromium"'
+                    bat(returnStatus: true, script: command)
+                 } catch (Exception e) {
+                    def errorMessage = e.getMessage() 
+                    if (errorMessage.contains("Test timeout")) {
+                      def retryCommand = 'npx playwright test --project="chromium"'
+                      bat(returnStatus: true, script: retryCommand)
+                    }
+                      currentBuild.result = 'FAILURE'
+                    }
                 }
-                currentBuild.result = 'FAILURE'
             }
         }
-    }
+        stage('firefox'){
+          steps {
+              script {
+                 try {
+                    def command = 'npx playwright test --project="firefox"'
+                    bat(returnStatus: true, script: command)
+                 } catch (Exception e) {
+                    def errorMessage = e.getMessage() 
+                    if (errorMessage.contains("Test timeout")) {
+                      def retryCommand = 'npx playwright test --project="firefox"'
+                      bat(returnStatus: true, script: retryCommand)
+                    }
+                      currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+      }
+     
 }
       stage('Test reports') {
          steps {

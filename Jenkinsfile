@@ -39,7 +39,7 @@ pipeline {
                            bat 'npx playwright test --project="firefox"'
                            echo "privet firefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefox"
                         } catch (Exception e) {
-                            if (e.getMessage().contains("net::ERR_ABORTED")) {
+                            if (e.getMessage().contains("NS_ERROR_UNKNOWN_PROTOCOL")) {
                                 bat 'npx playwright test --project="firefox"'
                                 echo "Error in firefox, restart the comand ************************************************"
                             } else {

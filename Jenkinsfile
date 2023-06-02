@@ -18,11 +18,11 @@ pipeline {
                            bat 'npx playwright test --project="chromium"'
                            echo "privet chrome"
                         } catch (Exception e) {
-                            if (e.getMessage().contains("rererererererer")) {
+                            if (e.getMessage().contains("Timed out")) {
                                 bat 'npx playwright test --project="chromium"'
-                                echo "Ошибка в этапе 'chrome', перезапуск команды..."
+                                echo "Error in chrome, restart the comand ************************************************"
                             } else {
-                                error('Произошла ошибка в этапе "webkit"')
+                                error('Appear error chrome')
                             }
                         }
                       }
@@ -41,9 +41,9 @@ pipeline {
                         } catch (Exception e) {
                             if (e.getMessage().contains("rererererererer")) {
                                 bat 'npx playwright test --project="firefox"'
-                                echo "Ошибка в этапе 'firefox', перезапуск команды..."
+                                echo "Error in firefox, restart the comand ************************************************"
                             } else {
-                                error('Произошла ошибка в этапе "webkit"')
+                                error('Appear error firefox')
                             }
                         }
                       }

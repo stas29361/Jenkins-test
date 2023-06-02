@@ -17,9 +17,10 @@ pipeline {
                     bat(returnStatus: true, script: command)
                  } catch (Exception e) {
                     def errorMessage = e.getMessage() 
-                    if (errorMessage.contains("Test timeout")) {
+                    if (errorMessage.contains("rererererererer")) {
                       def retryCommand = 'npx playwright test --project="chromium"'
                       bat(returnStatus: true, script: retryCommand)
+                      echo "chrome retry----------------------------------------"
                     }
                       currentBuild.result = 'FAILURE'
                     }
@@ -37,6 +38,7 @@ pipeline {
                     if (errorMessage.contains("Test timeout")) {
                       def retryCommand = 'npx playwright test --project="firefox"'
                       bat(returnStatus: true, script: retryCommand)
+                      echo "firefox retry----------------------------------------"
                     }
                       currentBuild.result = 'FAILURE'
                     }

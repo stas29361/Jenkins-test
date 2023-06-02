@@ -22,6 +22,7 @@ pipeline {
                                 bat 'npx playwright test --project="chromium"'
                                 echo "Error in chrome, restart the comand ************************************************"
                             } else {
+                              echo "${e.getMessage()}"
                                 error('Appear error chrome')
                             }
                         }
@@ -43,6 +44,7 @@ pipeline {
                                 bat 'npx playwright test --project="firefox"'
                                 echo "Error in firefox, restart the comand ************************************************"
                             } else {
+                                echo "${e.getMessage()}"
                                 error('Appear error firefox')
                             }
                         }

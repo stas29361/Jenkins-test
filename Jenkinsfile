@@ -11,37 +11,38 @@ pipeline {
       parallel{
         stage('chrome'){
           steps {
-              script {
-                 try {
-                    bat 'npx playwright test --project="chromium"'
-                    echo "privet rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
-                 } catch (Exception e) {
-                    def errorMessage = e.getMessage() 
-                    echo "poka tttttttttttttttttttttttttttttttttttttttttttttttttttt"
-                    if (errorMessage.contains("rererererererer")) {
-                      bat 'npx playwright test --project="chromium"'
-                      echo "chrome retry----------------------------------------"
-                    } else {
-                      currentBuild.result = 'FAILURE'
-                      }
-                      
+            catchError(stageResult: 'FAILURE') {
+                    retry(3) {
+                        try {
+                           bat 'npx playwright test --project="chromium"'
+                           echo "privet chrome"
+                        } catch (Exception e) {
+                            if (e.getMessage().contains("rererererererer")) {
+                                bat 'npx playwright test --project="chromium"'
+                                echo "Ошибка в этапе 'chrome', перезапуск команды..."
+                            } else {
+                                error('Произошла ошибка в этапе "webkit"')
+                            }
+                        }
                     }
                 }
             }
         }
-        stage ('firefox') {
+    stage('firefox'){
           steps {
-              script {
-                 try {
-                    bat 'npx playwright test --project="firefox"'
-                 } catch (Exception e) {
-                    def errorMessage = e.getMessage() 
-                    if (errorMessage.contains("Test timeout")) {
-                      bat 'npx playwright test --project="firefox"'
-                      echo "firefox retry----------------------------------------"
-                    } else {
-                      currentBuild.result = 'FAILURE'
-                      }
+            catchError(stageResult: 'FAILURE') {
+                    retry(3) {
+                        try {
+                           bat 'npx playwright test --project="firefox"'
+                           echo "privet firefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefox"
+                        } catch (Exception e) {
+                            if (e.getMessage().contains("rererererererer")) {
+                                bat 'npx playwright test --project="firefox"'
+                                echo "Ошибка в этапе 'firefox', перезапуск команды..."
+                            } else {
+                                error('Произошла ошибка в этапе "webkit"')
+                            }
+                        }
                     }
                 }
             }

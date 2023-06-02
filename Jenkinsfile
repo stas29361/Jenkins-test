@@ -18,7 +18,7 @@ pipeline {
                           echo "privet chrome"
                            bat 'npx playwright test --project="chromium"'
                         } catch (Exception e) {
-                            if (e.getMessage().contains("net::ERR_ABORTED")) {
+                            if (e.getMessage().contains("script returned exit code 1")) {
                                 bat 'npx playwright test --project="chromium"'
                                 echo "Error in chrome, restart the comand ************************************************"
                             } else {
@@ -40,7 +40,7 @@ pipeline {
                            bat 'npx playwright test --project="firefox"'
                            echo "privet firefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefox"
                         } catch (Exception e) {
-                            if (e.getMessage().contains("NS_ERROR_UNKNOWN_PROTOCOL")) {
+                            if (e.getMessage().contains("script returned exit code 1")) {
                                 bat 'npx playwright test --project="firefox"'
                                 echo "Error in firefox, restart the comand ************************************************"
                             } else {

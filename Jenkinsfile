@@ -12,7 +12,13 @@ pipeline {
         stage('chrome'){
           steps {
             catchError(stageResult: 'FAILURE') {
-              echo "${e.getMessage()} 11111111111111111111111111111111111111111111111111111111111"
+                      script {
+                        try {
+                           bat 'npx playwright test --project="chromium"'
+                        } catch (Exception e) {
+                            echo "${e.getMessage()} 11111111111111111111111111111111111111111111111111111111111"
+                        }
+                      }
                     // retry(3) {
                     //   script {
                     //     try {
@@ -35,7 +41,14 @@ pipeline {
     stage('firefox'){
           steps {
             catchError(stageResult: 'FAILURE') {
-               echo "${e.getStackTrace()} 22222222222222222222222222222222222222222222222222222222222"
+              script {
+                        try {
+                           bat 'npx playwright test --project="firefox"'
+                        } catch (Exception e) {
+                            echo "${e.getStackTrace()} 22222222222222222222222222222222222222222222222222222222222"
+                        }
+                      }
+               
                     // retry(3) {
                     //   script{
                     //     try {

@@ -12,6 +12,7 @@ pipeline {
         stage('chrome'){
           steps {
             catchError(stageResult: 'FAILURE') {
+              script{
         try {
             bat 'npx playwright test --project="chrome"'
             def commandOutput = currentBuild.rawBuild.getLog(1000)
@@ -20,6 +21,7 @@ pipeline {
                 bat 'npx playwright test --project="chrome"'
             } 
         } 
+              }
                     // retry(3) {
                     //   script {
                     //     try {
@@ -42,6 +44,7 @@ pipeline {
     stage('firefox'){
           steps {
             catchError(stageResult: 'FAILURE') {
+              script{
               try {
             bat 'npx playwright test --project="firefox"'
             def commandOutput = currentBuild.rawBuild.getLog(1000)
@@ -50,6 +53,7 @@ pipeline {
                 bat 'npx playwright test --project="firefox"'
             } 
         } 
+              }
                     // retry(3) {
                     //   script{
                     //     try {

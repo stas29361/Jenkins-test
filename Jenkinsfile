@@ -15,7 +15,7 @@ pipeline {
             script{
             bat 'npx playwright test --project="chrome"'
             def commandOutput = currentBuild.rawBuild.getLog(1000)
-            if (commandOutput.contains('page.goto: net::ERR_ABORTED')) {
+            if (commandOutput.contains('NS_ERROR_UNKNOWN_PROTOCOL')) {
               echo "11111111111111111111111111111111111111111111111111111111"
                 bat 'npx playwright test --project="chrome"'
             } 
@@ -45,7 +45,7 @@ pipeline {
               script{
             bat 'npx playwright test --project="firefox"'
             def commandOutput = currentBuild.rawBuild.getLog(1000)
-            if (commandOutput.contains('page.goto: net::ERR_ABORTED')) {
+            if (commandOutput.contains('NS_ERROR_UNKNOWN_PROTOCOL')) {
               echo "22222222222222222222222222222222222222222222222222222222"
                 bat 'npx playwright test --project="firefox"'
             } 

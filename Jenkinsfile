@@ -16,7 +16,7 @@ pipeline {
                         try {
                            bat 'npx playwright test --project="chromium"'
                         } catch (Exception e) {
-                            echo "${e.getMessage()} 11111111111111111111111111111111111111111111111111111111111"
+                            echo "${commandOutput} 11111111111111111111111111111111111111111111111111111111111"
                         }
                       }
                     // retry(3) {
@@ -45,7 +45,8 @@ pipeline {
                         try {
                            bat 'npx playwright test --project="firefox"'
                         } catch (Exception e) {
-                            echo "${e.getStackTrace()} 22222222222222222222222222222222222222222222222222222222222"
+                           def commandOutput = sh returnStdout: true, script: 'your-command'
+                            echo "${commandOutput} 22222222222222222222222222222222222222222222222222222222222"
                         }
                       }
                

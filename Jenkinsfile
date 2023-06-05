@@ -18,11 +18,11 @@ pipeline {
                           echo "privet chrome"
                            bat 'npx playwright test --project="chromium"'
                         } catch (Exception e) {
-                            if (e.getMessage().contains("script returned exit code 1")) {
+                            if (e. getStackTrace().contains("script returned exit code 1")) {
                                 bat 'npx playwright test --project="chromium"'
                                 echo "Error in chrome, restart the comand ************************************************"
                             } else {
-                              echo "${e.getMessage()}"
+                              echo "${e.getStackTrace()} 11111111111111111111111111111111111111111111111111111111111"
                                 error('Appear error chrome')
                             }
                         }
@@ -44,7 +44,7 @@ pipeline {
                                 bat 'npx playwright test --project="firefox"'
                                 echo "Error in firefox, restart the comand ************************************************"
                             } else {
-                                echo "${e.getMessage()}"
+                                echo "${e.getStackTrace()} 22222222222222222222222222222222222222222222222222222222222"
                                 error('Appear error firefox')
                             }
                         }

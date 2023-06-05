@@ -13,11 +13,12 @@ pipeline {
           steps {
             catchError(stageResult: 'FAILURE') {
             script{
-            bat 'npx playwright test --project="chrome"'
+            bat 'npx playwright test --project="chromium"'
             def commandOutput = currentBuild.rawBuild.getLog(1000)
+            echo "${commandOutput} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             if (commandOutput.contains('NS_ERROR_UNKNOWN_PROTOCOL')) {
               echo "11111111111111111111111111111111111111111111111111111111"
-                bat 'npx playwright test --project="chrome"'
+                bat 'npx playwright test --project="chromium"'
             } 
             }
                     // retry(3) {

@@ -16,6 +16,7 @@ pipeline {
                         try {
                            bat 'npx playwright test --project="chromium"'
                         } catch (Exception e) {
+                            def commandOutput = bat returnStdout: true, script: 'your-command'
                             echo "${commandOutput} 11111111111111111111111111111111111111111111111111111111111"
                         }
                       }
@@ -45,7 +46,7 @@ pipeline {
                         try {
                            bat 'npx playwright test --project="firefox"'
                         } catch (Exception e) {
-                           def commandOutput = sh returnStdout: true, script: 'your-command'
+                           def commandOutput = bat returnStdout: true, script: 'your-command'
                             echo "${commandOutput} 22222222222222222222222222222222222222222222222222222222222"
                         }
                       }

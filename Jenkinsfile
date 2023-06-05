@@ -12,14 +12,14 @@ pipeline {
         stage('chrome'){
           steps {
             catchError(stageResult: 'FAILURE') {
-                      script {
-                        try {
-                           bat 'npx playwright test --project="chromium"'
-                        } catch (Exception e) {
-                            def commandOutput = bat returnStdout: true, script: 'your-command'
-                            echo "${commandOutput} 11111111111111111111111111111111111111111111111111111111111"
-                        }
-                      }
+        try {
+            bat 'npx playwright test --project="chrome"'
+            def commandOutput = currentBuild.rawBuild.getLog(1000)
+            if (commandOutput.contains('page.goto: net::ERR_ABORTED')) {
+              echo "11111111111111111111111111111111111111111111111111111111"
+                bat 'npx playwright test --project="chrome"'
+            } 
+        } 
                     // retry(3) {
                     //   script {
                     //     try {
@@ -42,15 +42,14 @@ pipeline {
     stage('firefox'){
           steps {
             catchError(stageResult: 'FAILURE') {
-              script {
-                        try {
-                           bat 'npx playwright test --project="firefox"'
-                        } catch (Exception e) {
-                           def commandOutput = bat returnStdout: true, script: 'your-command'
-                            echo "${commandOutput} 22222222222222222222222222222222222222222222222222222222222"
-                        }
-                      }
-               
+              try {
+            bat 'npx playwright test --project="firefox"'
+            def commandOutput = currentBuild.rawBuild.getLog(1000)
+            if (commandOutput.contains('page.goto: net::ERR_ABORTED')) {
+              echo "22222222222222222222222222222222222222222222222222222222"
+                bat 'npx playwright test --project="firefox"'
+            } 
+        } 
                     // retry(3) {
                     //   script{
                     //     try {

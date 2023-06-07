@@ -17,7 +17,7 @@ try {
   bat 'npx playwright test --project="chromium"'
 } catch (Exception e) {
 def workspace = env.WORKSPACE
-def logPath = "${workspace}\\log.txt"
+def logPath = "${workspace}\\log"
 
 
 echo "Путь к файлу log.txt: ${logPath}"
@@ -48,7 +48,7 @@ try {
   bat 'npx playwright test --project="chromium"'
 } catch (Exception e) {
 def workspace = env.WORKSPACE
-def logPath = "${workspace}\\log.txt"
+def logPath = "${workspace}\\log"
 
 echo "Путь к файлу log.txt: ${logPath}"
 

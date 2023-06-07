@@ -13,14 +13,12 @@ pipeline {
           steps {
            script {
                     def fileName = "log"
-                    def searchDirectory = new File(env.JENKINS_HOME)
-                    echo "${env.JENKINS_HOME}"
+                    def searchDirectory = new File("${env.JENKINS_HOME}\\jobs")
+                    
                     def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
                     
                     if (files) {
-                        def sortedFiles = files.sort { file1, file2 -> file2.lastModified() <=> file1.lastModified() }
-                        def latestFile = sortedFiles[0]
-                        def filePath = latestFile.getAbsolutePath()
+                        def filePath = files[0].getAbsolutePath()
                         echo "file path have found: ${filePath}"
                     } else {
                         echo "file path have not found"
@@ -48,15 +46,12 @@ pipeline {
           steps {
            script {
                     def fileName = "log"
-                    def searchDirectory = new File(env.JENKINS_HOME)
-                    echo "${env.JENKINS_HOME}"
+                    def searchDirectory = new File("${env.JENKINS_HOME}\\jobs")
                     
                     def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
                     
                     if (files) {
-                        def sortedFiles = files.sort { file1, file2 -> file2.lastModified() <=> file1.lastModified() }
-                        def latestFile = sortedFiles[0]
-                        def filePath = latestFile.getAbsolutePath()
+                        def filePath = files[0].getAbsolutePath()
                         echo "file path have found: ${filePath}"
                     } else {
                         echo "file path have not found"

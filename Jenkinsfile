@@ -13,7 +13,7 @@ pipeline {
           steps {
            script {
                     def fileName = "log"
-                    def searchDirectory = new File("${env.JENKINS_HOME}\\jobs")
+                    def searchDirectory = new File("${env.JENKINS_HOME}/jobs/Pipeline-test")
                     
                     def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
                     
@@ -46,7 +46,7 @@ pipeline {
           steps {
            script {
                     def fileName = "log"
-                    def searchDirectory = new File("${env.JENKINS_HOME}\\jobs")
+                    def searchDirectory = new File("${env.JENKINS_HOME}/jobs/Pipeline-test")
                     
                     def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
                     

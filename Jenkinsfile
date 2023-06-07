@@ -21,9 +21,9 @@ pipeline {
                     
                     if (files) {
                         def filePath = files[0].getAbsolutePath()
-                        println("Полный путь к файлу: $filePath")
+                        echo "file path have found: ${filePath}"
                     } else {
-                        println("Файл не найден")
+                        echo "file path have not found"
                     }
                 }
                     // retry(3) {
@@ -56,9 +56,9 @@ pipeline {
                     
                     if (files) {
                         def filePath = files[0].getAbsolutePath()
-                        println("Полный путь к файлу: $filePath")
+                        echo "file path have found: ${filePath}"
                     } else {
-                        println("Файл не найден")
+                        echo "file path have not found"
                     }
                 }
                     // retry(3) {

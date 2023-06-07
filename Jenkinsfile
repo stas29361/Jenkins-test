@@ -16,7 +16,7 @@ pipeline {
 try {
   bat 'npx playwright test --project="chromium"'
 } catch (Exception e) {
-  logText = sh(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
+  logText = bat(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
   echo logText
 }}
                     // retry(3) {
@@ -44,7 +44,7 @@ try {
 try {
   bat 'npx playwright test --project="chromium"'
 } catch (Exception e) {
-  logText = sh(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
+  logText = bat(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
   echo logText
 }
             }

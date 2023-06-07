@@ -16,8 +16,8 @@ pipeline {
 try {
   bat 'npx playwright test --project="chromium"'
 } catch (Exception e) {
-  def jenkinsHome = env.JENKINS_HOME
-def logPath = bat(returnStdout: true, script: "dir /s /b \"${jenkinsHome}\\log.txt\"").trim()
+def logPath = bat(returnStdout: true, script: 'find ${env.JENKINS_HOME} -name log.txt').trim()
+
 
 echo "Путь к файлу log.txt: ${logPath}"
 }}
@@ -46,8 +46,7 @@ echo "Путь к файлу log.txt: ${logPath}"
 try {
   bat 'npx playwright test --project="chromium"'
 } catch (Exception e) {
- def jenkinsHome = env.JENKINS_HOME
-def logPath = bat(returnStdout: true, script: "dir /s /b \"${jenkinsHome}\\log.txt\"").trim()
+def logPath = bat(returnStdout: true, script: 'find ${env.JENKINS_HOME} -name log.txt').trim()
 
 echo "Путь к файлу log.txt: ${logPath}"
 

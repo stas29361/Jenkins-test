@@ -11,13 +11,14 @@ pipeline {
       parallel{
         stage('chrome'){
           steps {
+            script{
            def logText = ""
 try {
   bat 'npx playwright test --project="chromium"'
 } catch (Exception e) {
   logText = sh(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
   echo logText
-}
+}}
                     // retry(3) {
                     //   script {
                     //     try {
@@ -38,6 +39,7 @@ try {
         }
     stage('firefox'){
           steps {
+            script {
             def logText = ""
 try {
   bat 'npx playwright test --project="chromium"'
@@ -45,6 +47,7 @@ try {
   logText = sh(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
   echo logText
 }
+            }
                     // retry(3) {
                     //   script{
                     //     try {

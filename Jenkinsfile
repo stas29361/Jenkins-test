@@ -11,16 +11,13 @@ pipeline {
       parallel{
         stage('chrome'){
           steps {
-            catchError(stageResult: 'FAILURE') {
-            script{
-            bat 'npx playwright test --project="chromium"'
-            def commandOutput = bat(currentBuild.rawBuild.getLog(1000)) 
-            println(commandOutput)
-            if (commandOutput.contains('NS_ERROR_UNKNOWN_PROTOCOL')) {
-              echo "11111111111111111111111111111111111111111111111111111111"
-                bat 'npx playwright test --project="chromium"'
-            } 
-            }
+           def logText = ""
+try {
+  bat 'npx playwright test --project="chromium"'
+} catch (Exception e) {
+  logText = sh(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
+  echo logText
+}
                     // retry(3) {
                     //   script {
                     //     try {
@@ -37,21 +34,17 @@ pipeline {
                     //     }
                     //   }
                     // }
-                }
             }
         }
     stage('firefox'){
           steps {
-            catchError(stageResult: 'FAILURE') {
-              script{
-            bat 'npx playwright test --project="firefox"'
-            def commandOutput = bat(currentBuild.rawBuild.getLog(1000)) 
-            println(commandOutput)
-            if (commandOutput.contains('NS_ERROR_UNKNOWN_PROTOCOL')) {
-              echo "22222222222222222222222222222222222222222222222222222222"
-                bat 'npx playwright test --project="firefox"'
-            } 
-              }
+            def logText = ""
+try {
+  bat 'npx playwright test --project="chromium"'
+} catch (Exception e) {
+  logText = sh(returnStdout: true, script: "cat ${env.JENKINS_HOME}/path/to/log.txt")
+  echo logText
+}
                     // retry(3) {
                     //   script{
                     //     try {
@@ -68,7 +61,6 @@ pipeline {
                     //     }
                     //   }
                     // }
-                }
             }
         }
       }

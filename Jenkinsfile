@@ -12,17 +12,7 @@ pipeline {
         stage('chrome'){
           steps {
            script {
-                    def fileName = "log"
-                    def searchDirectory = new File("${env.JENKINS_HOME}/jobs/Pipeline-test")
-                    
-                    def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
-                    
-                    if (files) {
-                        def filePath = files[0].getAbsolutePath()
-                        echo "file path have found: ${filePath}"
-                    } else {
-                        echo "file path have not found"
-                    }
+                    echo 'The log output:' + currentBuild.rawBuild.log + 'End of logs'
                 }
                     // retry(3) {
                     //   script {
@@ -45,17 +35,7 @@ pipeline {
     stage('firefox'){
           steps {
            script {
-                    def fileName = "log"
-                    def searchDirectory = new File("${env.JENKINS_HOME}/jobs/Pipeline-test")
-                    
-                    def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
-                    
-                    if (files) {
-                        def filePath = files[0].getAbsolutePath()
-                        echo "file path have found: ${filePath}"
-                    } else {
-                        echo "file path have not found"
-                    }
+                    echo 'The log output:' + currentBuild.rawBuild.log + 'End of logs'
                 }
                     // retry(3) {
                     //   script{

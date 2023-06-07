@@ -11,17 +11,21 @@ pipeline {
       parallel{
         stage('chrome'){
           steps {
-            script{
-           def logText = ""
-try {
-  bat 'npx playwright test --project="chromium"'
-} catch (Exception e) {
-def workspace = env.WORKSPACE
-def logPath = "${workspace}\\log"
-
-
-echo "Путь к файлу log.txt: ${logPath}"
-}}
+           script {
+                    def directory = new File(env.JENKINS_HOME)
+                    def fileName = "log"
+                    
+                    def files = directory.listFiles().findAll {
+                        it.isFile() && it.name == fileName
+                    }
+                    
+                    if (files) {
+                        def filePath = files[0].getAbsolutePath()
+                        println("Полный путь к файлу: $filePath")
+                    } else {
+                        println("Файл не найден")
+                    }
+                }
                     // retry(3) {
                     //   script {
                     //     try {
@@ -42,18 +46,21 @@ echo "Путь к файлу log.txt: ${logPath}"
         }
     stage('firefox'){
           steps {
-            script {
-            def logText = ""
-try {
-  bat 'npx playwright test --project="chromium"'
-} catch (Exception e) {
-def workspace = env.WORKSPACE
-def logPath = "${workspace}\\log"
-
-echo "Путь к файлу log.txt: ${logPath}"
-
-}
-            }
+           script {
+                    def directory = new File(env.JENKINS_HOME)
+                    def fileName = "log"
+                    
+                    def files = directory.listFiles().findAll {
+                        it.isFile() && it.name == fileName
+                    }
+                    
+                    if (files) {
+                        def filePath = files[0].getAbsolutePath()
+                        println("Полный путь к файлу: $filePath")
+                    } else {
+                        println("Файл не найден")
+                    }
+                }
                     // retry(3) {
                     //   script{
                     //     try {

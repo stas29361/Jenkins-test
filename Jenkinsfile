@@ -12,12 +12,10 @@ pipeline {
         stage('chrome'){
           steps {
            script {
-                    def directory = new File(env.JENKINS_HOME)
                     def fileName = "log"
+                    def searchDirectory = new File(env.JENKINS_HOME)
                     
-                    def files = directory.listFiles().findAll {
-                        it.isFile() && it.name == fileName
-                    }
+                    def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
                     
                     if (files) {
                         def filePath = files[0].getAbsolutePath()
@@ -47,12 +45,10 @@ pipeline {
     stage('firefox'){
           steps {
            script {
-                    def directory = new File(env.JENKINS_HOME)
                     def fileName = "log"
+                    def searchDirectory = new File(env.JENKINS_HOME)
                     
-                    def files = directory.listFiles().findAll {
-                        it.isFile() && it.name == fileName
-                    }
+                    def files = org.apache.commons.io.FileUtils.listFiles(searchDirectory, [fileName] as String[], true)
                     
                     if (files) {
                         def filePath = files[0].getAbsolutePath()

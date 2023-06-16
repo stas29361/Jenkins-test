@@ -1,5 +1,5 @@
 pipeline {
-   agent { node:latest }
+   agent any 
    parameters {
       string defaultValue: '', description: 'Environment URL for running tests', name: 'STAGING'
       string defaultValue: '', description: 'Domain for test user accounts', name: 'DOMAIN'

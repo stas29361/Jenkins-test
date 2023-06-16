@@ -6,12 +6,6 @@ pipeline {
       string defaultValue: '', description: 'Suite for running tests', name: 'SUITE'
     }
    stages {
-      stage('Clear test reports'){
-         steps {
-            bat(""" rm -rf $WORKSPACE/allure-results """)
-            bat(""" rm -rf $WORKSPACE/allure-report """)
-         }
-      }
       stage('Installation'){
          steps {
             bat 'npm install'

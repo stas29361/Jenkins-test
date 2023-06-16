@@ -1,69 +1,83 @@
 pipeline {
-   agent any
+   agent { node { label 'tse-agent-latest' } }
+   parameters {
+      string defaultValue: '', description: 'Environment URL for running tests', name: 'STAGING'
+      string defaultValue: '', description: 'Domain for test user accounts', name: 'DOMAIN'
+      string defaultValue: '', description: 'Suite for running tests', name: 'SUITE'
+    }
    stages {
-      stage('Installation'){
+      stage('Clear test reports'){
          steps {
-            bat 'npm install'
-            bat 'npx playwright install'
+            sh(""" rm -rf $WORKSPACE/allure-results """)
+            sh(""" rm -rf $WORKSPACE/allure-report """)
          }
       }
-     stage('end-2-end') {
-      parallel{
-        stage('chrome'){
-          steps {
-           script {
-                    echo 'The log output:' + currentBuild.rawBuild.log + 'End of logs'
-                }
-                    // retry(3) {
-                    //   script {
-                    //     try {
-                    //       echo "privet chrome"
-                    //        bat 'npx playwright test --project="chromium"'
-                    //     } catch (Exception e) {
-                    //         if (e. getStackTrace().contains("script returned exit code 1")) {
-                    //             bat 'npx playwright test --project="chromium"'
-                    //             echo "Error in chrome, restart the comand ************************************************"
-                    //         } else {
-                    //           echo "${e.getStackTrace()} 11111111111111111111111111111111111111111111111111111111111"
-                    //             error('Appear error chrome')
-                    //         }
-                    //     }
-                    //   }
-                    // }
-            }
-        }
-    stage('firefox'){
-          steps {
-           script {
-                    echo 'The log output:' + currentBuild.rawBuild.log + 'End of logs'
-                }
-                    // retry(3) {
-                    //   script{
-                    //     try {
-                    //        bat 'npx playwright test --project="firefox"'
-                    //        echo "privet firefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefoxfirefox"
-                    //     } catch (Exception e) {
-                    //         if (e.getMessage().contains("script returned exit code 1")) {
-                    //             bat 'npx playwright test --project="firefox"'
-                    //             echo "Error in firefox, restart the comand ************************************************"
-                    //         } else {
-                    //             echo "${e.getStackTrace()} 22222222222222222222222222222222222222222222222222222222222"
-                    //             error('Appear error firefox')
-                    //         }
-                    //     }
-                    //   }
-                    // }
-            }
-        }
+      stage('Installation'){
+         steps {
+            sh 'npm install'
+            sh 'npx playwright install'
+         }
       }
-     
-}
+      stage('e2e-tests'){
+         parallel {
+            stage('webkit') {
+               steps {
+                  catchError(stageResult: 'FAILURE') {
+                     sh  """ npx playwright test --project="webkit" --grep-invert='@serial' $SUITE """
+                  }
+               }
+            }
+            stage('chromium') {
+               steps {
+                  catchError(stageResult: 'FAILURE') {
+                     sh  """ npx playwright test --project="chromium" --grep-invert='@serial' $SUITE """
+                  }
+               }
+            }
+            stage('firefox') {
+               steps {
+                  catchError(stageResult: 'FAILURE') {
+                     sh  """ npx playwright test --project="firefox" --grep-invert='@serial' $SUITE """
+                     
+                  }
+               }
+            }
+            stage('serial') {
+               stages {
+                 stage('webkit') {
+                     steps {
+                        catchError(stageResult: 'FAILURE') {
+                           sh  """ npx playwright test --workers=1 --project="webkit" --grep='@serial' $SUITE """
+                        }
+                     }
+                  }
+                 stage('chromium') {
+                     steps {
+                        catchError(stageResult: 'FAILURE') {
+                           sh  """ npx playwright test --workers=1 --project="chromium" --grep='@serial' $SUITE """
+                        }
+                     }
+                  }
+                 stage('firefox') {
+                     steps {
+                        catchError(stageResult: 'FAILURE') {
+                           sh  """ npx playwright test --workers=1 --project="firefox" --grep='@serial' $SUITE """
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
       stage('Test reports') {
          steps {
             allure([includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]])
          }
       }
    }
+   post {
+      failure {
+         emailext body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Allure Report", to: "autotests.reports@zextras.com"
+      }
+   }
 }
-
-
